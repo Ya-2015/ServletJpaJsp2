@@ -69,8 +69,10 @@ public class ConfirmationServlet extends HttpServlet {
 		
 		//add to database
 		if ((request.getSession(false).getAttribute("username") != null)){
-			Shoppinguser usr = db.checkUserByName((String)request.getSession(false).getAttribute("username"));
-			item.setShoppinguser(usr);
+			String name = (String)request.getSession(false).getAttribute("username");
+			int id = db.checkUserByName(name);
+			item.setUserid(id);
+			item.setUsername(name);
 			
 			//add to database
 			db.addNewLineitem(item);

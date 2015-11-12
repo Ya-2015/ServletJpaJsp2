@@ -53,49 +53,91 @@
     <th>Name</th> 
     <th>Description</th>
     <th>Price</th>
+    <c:if test="${not empty username and username != 'admin'}">
+    <th>Add to Cart</th>
+    </c:if>
   </tr>
     <tr>      
         <td>${product.prodname}</td>
         <td><!-- ${product.description}<br><img src="img/${product.image}" alt="HTML5 Icon" width="128" height="128"> -->
-        <div class="row">
+        	<img src="img/${product.image}" alt="HTML5 Icon" width="200" height="200">
+        	<br>
+        	<br>
+        	<p>${product.description}</p>
+        <!-- <div class="row">
   			<div class="col-md-4">
   			<img src="img/${product.image}" alt="HTML5 Icon" width="200" height="200">
   			</div>
   			<div class="col-md-8">
   			<p>${product.description}</p>
-  			</div>
-		</div>
+  			</div> 
+		</div>-->
         </td>
         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${product.price}" type="currency"/></td>
+        <c:if test="${not empty username and username != 'admin'}">
+			<td>
+			<form action="ConfirmationServlet" method="post">
+			<select name="quantity" class="selectpicker">
+			  <% for(int i = 1; i < 100; i+=1) { %>
+			  	<option value=<%=i %>><%=i %></option>
+			    <% } %>
+			</select> 
+			<br>
+			<br>
+			<button type="submit" class="btn btn-primary">Add to Cart</button>
+			</form>
+			</td>
+		</c:if>
     </tr>
 </table>
 
 <br>
-
-<c:if test="${not empty username and username != 'admin'}">
-<div class="container">
-<form action="ConfirmationServlet" method="post">
-<div class="row">
-<div class="pull-left col-md-2">
-<div class="row">
-<div class="pull-left col-md-4">
-<p>Quantity</p>
-</div>
-<div class="pull-left col-md-8">
-<select name="quantity" class="selectpicker">
-  <% for(int i = 1; i < 100; i+=1) { %>
-  	<option value=<%=i %>><%=i %></option>
-    <% } %>
-</select> 
-</div>
-</div> 
-</div>
-<div class="pull-left col-md-10">
-<button type="submit" class="btn btn-primary">Add to Cart</button>
-</div>
-</div>
-</form>
-</div>
+ 
+ <!-- display all reviews -->
+  <c:if test="${not empty reviews}">
+  <h3>Reviews</h3>
+  <br>
+  <table class="table table-bordered">
+<tr>
+    <th>Rating</th> 
+    <th>Review</th>
+    <th>Customer</th>
+    <th>Date</th>
+  </tr>
+    <c:forEach items="${reviews}" var="rew">
+    <tr>      
+        <td>${rew.poststar }</td>
+        <td>${rew.post }</td>
+        <td>${rew.username }</td>
+        <td>${rew.postdate }</td>
+    </tr>
+	</c:forEach>
+</table>
+  </c:if>
+ 
+ <!-- post reviews for logged in user -->
+ <c:if test="${not empty username and username != 'admin'}">
+ <br>
+ <h3>Write A Review</h3>
+ <br>
+ <form action="AddToCartServlet" method="post">
+ 		<input type="hidden" name="ProductId" value=${product.prodid}>
+ 		<div class="row">
+  			<div class="col-md-1">Rating</div>
+  			<div class="col-md-11">
+  				<select name="rating" class="selectpicker">
+  					<% for(int i = 5; i > 0; i-=1) { %>
+  					<option value=<%=i %>><%=i %></option>
+    				<% } %>
+				</select> 
+  			</div>
+		</div>
+		<br>
+		<div class="form-group">
+    		 <textarea class="form-control" rows="5" id="post" name="post"></textarea>
+  		</div>
+		<button type="submit" class="btn btn-primary">Post</button>
+ </form>
  </c:if>
 
 

@@ -52,7 +52,13 @@
 </c:if>
 
 <c:if test="${not empty items}">
-<h2>Shopping Cart</h2>
+<c:if test="${items.size() == 1}">
+<h2>You have 1 item in your cart</h2>
+</c:if>
+<c:if test="${items.size() > 1}">
+<h2>You have ${items.size()} items in your cart</h2>
+</c:if>
+
     <table class="table table-bordered">
 <tr>
     <th>Name</th>

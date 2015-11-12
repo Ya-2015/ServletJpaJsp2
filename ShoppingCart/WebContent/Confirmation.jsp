@@ -49,9 +49,18 @@
 </c:if>
 <h2>Confirmation</h2>
 <br>
+<c:if test="${qty == 1}">
+<h3>${qty} item added successfully in cart.</h3>
+</c:if>
+<c:if test="${qty > 1}">
 <h3>${qty} items added successfully in cart.</h3>
+</c:if>
+
 <br>
 <h4>Subtotal: <fmt:setLocale value="en_US"/><fmt:formatNumber value="${subtotal}" type="currency"/></h4>
+<br>
+<h4>Tax(6%): <fmt:setLocale value="en_US"/><fmt:formatNumber value="${subtotal * 0.06}" type="currency"/></h4>
+<br>
 <br>
 <table class="table table-bordered">
 <tr>

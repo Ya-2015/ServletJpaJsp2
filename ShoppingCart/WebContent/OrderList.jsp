@@ -47,7 +47,7 @@
 </c:if>
 
 <c:if test="${empty items}">
-<h2>No Oder</h2>
+<h2>Currently No Oder</h2>
 </c:if>
 
 <c:if test="${not empty items}">
@@ -55,18 +55,20 @@
     <table class="table table-bordered">
 <tr>
     <th>Name</th>
-    <th>Description</th>
     <th>Price</th> 
     <th>Quantity</th>
     <th>Cost</th>
+    <th>Customer</th>
+    <th>Date</th>
   </tr>
   <c:forEach items="${items}" var="item">
     <tr>      
         <td>${item.productname}</td>
-        <td><img src="img/${item.image}" alt="HTML5 Icon" width="128" height="128"></td>
         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${item.price}" type="currency"/></td>
         <td>${item.quantity}</td>
         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${item.productcost}" type="currency"/></td>
+        <td>${item.username}</td>
+        <td>${item.purchasedate}</td>
     </tr>
 	</c:forEach>
 </table>

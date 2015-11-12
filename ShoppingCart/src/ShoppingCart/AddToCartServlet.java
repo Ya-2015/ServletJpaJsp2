@@ -2,6 +2,8 @@ package ShoppingCart;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import models.Product;
+import models.Productreview;
 
 /**
  * Servlet implementation class AddToCartServlet
@@ -47,10 +50,32 @@ public class AddToCartServlet extends HttpServlet {
 		response.setContentType("text/html");
 		String productId = request.getParameter("ProductId");
 		
-		Product p = db.getProductById(Integer.parseInt(productId));
+		int proid = Integer.parseInt(productId);
+		Product p = db.getProductById(proid);
+		
+		//add post
+		if(request.getParameter("post") != null){
+			String post = (String)request.getParameter("post");
+			int rating = Integer.parseInt(request.getParameter("rating"));
+			
+			Productreview review = new Productreview();
+			review.setPost(post);
+			review.setPostdate(new Date());
+			review.setPoststar(rating);
+			review.setProductid(proid);
+			review.setUsername((String)request.getSession(false).getAttribute("username"));
+			
+			db.addPost(review);
+		}
+		
 		if(p != null){
 			HttpSession session = request.getSession(true);
 			session.setAttribute("product", p);
+			
+			//get product review
+			ArrayList<Productreview> reviews = db.getReviewById(proid);
+			session.setAttribute("reviews", reviews);
+			
 			try {
 				getServletContext().getRequestDispatcher("/AddProduct.jsp").forward(request, response);
 			} catch (ServletException e) {

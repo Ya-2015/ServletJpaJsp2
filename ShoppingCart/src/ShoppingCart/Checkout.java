@@ -77,9 +77,9 @@ public class Checkout extends HttpServlet {
 			ArrayList<Lineitem> items = db.getLineitemsByUser(userid);
 			
 			//get total
-			Object b = db.getTotalCostByUser(userid);
-			if(b != null){
-				session.setAttribute("totalcost", (double)b);
+			Object cost = db.getTotalCostByUser(userid);
+			if(cost != null){
+				session.setAttribute("totalcost", (double)cost);
 			}
 			
 			session.setAttribute("items", items);

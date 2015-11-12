@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import DBUtil.DBUtil;
 import models.Lineitem;
 import models.Product;
+import models.Productreview;
 import models.Shoppinguser;
 
 public class ProductDB {
@@ -141,7 +142,7 @@ public class ProductDB {
 		List<Lineitem> fd = null;
 		
 		try {
-			String sql = "select p from Lineitem p join Shoppinguser u where u.userid = :userid";
+			String sql = "select u from Lineitem u where u.userid = :userid";
 			TypedQuery<Lineitem> q = em.createQuery(sql, Lineitem.class);
 			q.setParameter("userid", userid);
 			
@@ -161,7 +162,7 @@ public class ProductDB {
 		Object fd = null;
 		
 		try {
-			String sql = "select sum(p.productcost) from Lineitem p join Shoppinguser u where u.userid = :userid";
+			String sql = "select sum(p.productcost) from Lineitem p where p.userid = :userid";
 			TypedQuery<Lineitem> q = em.createQuery(sql, Lineitem.class);
 			q.setParameter("userid", userid);
 			
@@ -218,7 +219,7 @@ public class ProductDB {
 		return userid;
 	}
 	
-	public Shoppinguser checkUserByName(String username){
+	public int checkUserByName(String username){
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
 		Shoppinguser fd = null;
 		
@@ -235,8 +236,14 @@ public class ProductDB {
 			em.close();
 		}
 		
-		return fd;
+		int userid = -1;
+		if(fd!=null){
+			userid = fd.getUserid();
+		}
+		
+		return userid;
 	}
+	
 	
 	public boolean addNewUser(Shoppinguser user){
 		boolean isSuccess = false;
@@ -248,6 +255,48 @@ public class ProductDB {
 		
 		try{
 			em.persist(user);
+			trans.commit();
+			isSuccess = true;
+		}catch(Exception e){
+			System.out.println(e);
+			trans.rollback();
+		}finally{
+			em.close();
+		}
+		
+		return isSuccess;
+	}
+	
+	public ArrayList<Productreview> getReviewById(int productid){
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		List<Productreview> fd = null;
+		
+		try {
+			String sql = "select u from Productreview u where u.productid = :productid order by u.postdate";
+			TypedQuery<Productreview> q = em.createQuery(sql, Productreview.class);
+			q.setParameter("productid", productid);
+			
+			fd = q.getResultList();
+			
+		} catch (Exception e){
+			System.out.println(e);
+		} finally {
+			em.close();
+		}
+		
+		return new ArrayList<Productreview>(fd);
+	}
+	
+	public boolean addPost(Productreview post){
+		boolean isSuccess = false;
+		
+		EntityManager em = DBUtil.getEmFactory().createEntityManager();
+		EntityTransaction trans = em.getTransaction();
+		
+		trans.begin();
+		
+		try{
+			em.persist(post);
 			trans.commit();
 			isSuccess = true;
 		}catch(Exception e){

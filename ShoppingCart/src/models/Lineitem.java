@@ -34,10 +34,9 @@ public class Lineitem implements Serializable {
 
 	private BigDecimal quantity;
 
-	//bi-directional many-to-one association to Shoppinguser
-	@ManyToOne
-	@JoinColumn(name="USERID")
-	private Shoppinguser shoppinguser;
+	private int userid;
+
+	private String username;
 
 	public Lineitem() {
 	}
@@ -98,12 +97,20 @@ public class Lineitem implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public Shoppinguser getShoppinguser() {
-		return this.shoppinguser;
+	public int getUserid() {
+		return this.userid;
 	}
 
-	public void setShoppinguser(Shoppinguser shoppinguser) {
-		this.shoppinguser = shoppinguser;
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }

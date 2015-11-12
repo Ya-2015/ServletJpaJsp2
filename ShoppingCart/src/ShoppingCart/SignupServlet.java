@@ -59,7 +59,7 @@ public class SignupServlet extends HttpServlet {
 		session.removeAttribute("subtotal");
 		session.removeAttribute("totalcost");
 		
-		if(db.checkUserByName(username) != null){
+		if(db.checkUserByName(username) != -1){
 			//user already exists
 			request.setAttribute("useralreadyexist", "User Already Exists!");
 			try {

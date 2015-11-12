@@ -5,6 +5,7 @@
 		<class>models.Product</class>
 		<class>models.Lineitem</class>
 		<class>models.Shoppinguser</class>
+		<class>models.Productreview</class>
 		<properties>
 			<property name="eclipselink.exclude-eclipselink-orm" value="false"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
