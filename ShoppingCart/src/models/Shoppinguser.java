@@ -1,8 +1,8 @@
 package models;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -16,8 +16,6 @@ public class Shoppinguser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="shopping_user_seq")
-    @SequenceGenerator(schema="testuserdb", name="shopping_user_seq", sequenceName="shopping_user_seq", allocationSize=1)
 	private int userid;
 
 	private String email;

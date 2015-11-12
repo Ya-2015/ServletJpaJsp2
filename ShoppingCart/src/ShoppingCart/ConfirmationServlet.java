@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import models.Lineitem;
 import models.Product;
+import models.Shoppinguser;
 
 /**
  * Servlet implementation class ConfirmationServlet
@@ -68,8 +69,8 @@ public class ConfirmationServlet extends HttpServlet {
 		
 		//add to database
 		if ((request.getSession(false).getAttribute("username") != null)){
-			int userid = (int) request.getSession(false).getAttribute("userid");
-			item.setUserid(userid);
+			Shoppinguser usr = db.checkUserByName((String)request.getSession(false).getAttribute("username"));
+			item.setShoppinguser(usr);
 			
 			//add to database
 			db.addNewLineitem(item);

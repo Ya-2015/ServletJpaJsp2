@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("username", username);
 		
 		if(username.equalsIgnoreCase("admin")){
-			session.setAttribute("username", username.toLowerCase());
+
 			//get all orders from database
 			ArrayList<Lineitem> allitems = db.getLineitems();
 			session.setAttribute("items", allitems);

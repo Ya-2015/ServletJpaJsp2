@@ -141,7 +141,7 @@ public class ProductDB {
 		List<Lineitem> fd = null;
 		
 		try {
-			String sql = "select p from Lineitem p where p.userid = :userid";
+			String sql = "select p from Lineitem p join Shoppinguser u where u.userid = :userid";
 			TypedQuery<Lineitem> q = em.createQuery(sql, Lineitem.class);
 			q.setParameter("userid", userid);
 			
@@ -161,7 +161,7 @@ public class ProductDB {
 		Object fd = null;
 		
 		try {
-			String sql = "select sum(p.productcost) from Lineitem p where p.userid = :userid";
+			String sql = "select sum(p.productcost) from Lineitem p join Shoppinguser u where u.userid = :userid";
 			TypedQuery<Lineitem> q = em.createQuery(sql, Lineitem.class);
 			q.setParameter("userid", userid);
 			
@@ -218,7 +218,7 @@ public class ProductDB {
 		return userid;
 	}
 	
-	public boolean checkUserByName(String username){
+	public Shoppinguser checkUserByName(String username){
 		EntityManager em = DBUtil.getEmFactory().createEntityManager();
 		Shoppinguser fd = null;
 		
@@ -235,7 +235,7 @@ public class ProductDB {
 			em.close();
 		}
 		
-		return (fd!=null?true:false);
+		return fd;
 	}
 	
 	public boolean addNewUser(Shoppinguser user){

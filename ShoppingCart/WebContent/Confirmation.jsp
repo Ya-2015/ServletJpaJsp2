@@ -51,7 +51,7 @@
 <br>
 <h3>${qty} items added successfully in cart.</h3>
 <br>
-<h4>Subtotal: ${subtotal}</h4>
+<h4>Subtotal: <fmt:setLocale value="en_US"/><fmt:formatNumber value="${subtotal}" type="currency"/></h4>
 <br>
 <table class="table table-bordered">
 <tr>
