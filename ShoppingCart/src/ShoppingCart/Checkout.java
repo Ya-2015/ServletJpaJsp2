@@ -92,62 +92,6 @@ public class Checkout extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}else{//process session if current user is not logged in
-			ArrayList<Lineitem> itemlist = (ArrayList<Lineitem>) request.getSession(false).getAttribute("items");
-			//remove item
-			if (purchaseNo != null){
-				
-				int index = -1;
-				for (int i = 0; i < itemlist.size(); i++) {
-					if (itemlist.get(i).getPurchaseno() == Integer.parseInt(purchaseNo)){
-						index = i;
-						break;
-					}
-				}
-				if(index != -1){
-					itemlist.remove(index);
-				}
-			}
-			
-			//update qty
-			Object chg = request.getParameter("chgquantity");
-			if(chg != null){
-//				int chgid = Integer.parseInt(request.getParameter("chgid"));
-				int qty = Integer.parseInt(request.getParameter("chgquantity"));
-				
-				int index = -1;
-				index = Integer.parseInt(request.getParameter("chgid"));
-//				for (int i = 0; i < itemlist.size(); i++) {
-//					if (itemlist.get(i).getPurchaseno() == chgid){
-//						index = i;
-//						break;
-//					}
-//				}
-				if(index != -1){
-					itemlist.get(index).setQuantity(new BigDecimal(qty));
-					itemlist.get(index).setProductcost(qty * itemlist.get(index).getPrice());
-				}
-			}
-			
-			//get total cost
-			double cost = 0;
-			for(Lineitem i : itemlist){
-				cost += i.getProductcost();
-			}
-			
-			HttpSession session = request.getSession(true);
-			session.setAttribute("totalcost", cost);
-			session.setAttribute("items", itemlist);
-			try {
-				getServletContext().getRequestDispatcher("/Checkout.jsp").forward(request, response);
-			} catch (ServletException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
 		}
 		
 	}

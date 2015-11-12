@@ -23,8 +23,8 @@
       <ul class="nav navbar-nav">
         <li ><a href="HomeServlet">Home</a></li>
         <li class="active"><a href="#">Confirmation</a></li>
-    	<c:if test="${not empty items}">
-        <li ><a href="Checkout">Checkout</a></li>
+    	<c:if test="${not empty username and username != 'admin'}">
+        <li ><a href="Checkout">Check Out</a></li>
         </c:if>
       </ul>
       <ul class="nav navbar-nav navbar-right">

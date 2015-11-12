@@ -63,15 +63,8 @@ public class ConfirmationServlet extends HttpServlet {
 		item.setProductname(p.getProdname());
 		item.setProductcost(qty * p.getPrice());
 		item.setQuantity(new BigDecimal(qty));
-//		item.setPurchasedate(new Date());
+		item.setPurchasedate(new Date());
 		
-		//add to session if user is not logged in
-		ArrayList<Lineitem> itemlist = (ArrayList<Lineitem>) request.getSession(false).getAttribute("items");
-
-		if (itemlist == null){
-			itemlist = new ArrayList<Lineitem>();
-		}
-		itemlist.add(item);
 		
 		//add to database
 		if ((request.getSession(false).getAttribute("username") != null)){
@@ -84,7 +77,7 @@ public class ConfirmationServlet extends HttpServlet {
 		
 		//forward data
 		HttpSession session = request.getSession();
-		session.setAttribute("items", itemlist);
+
 		session.setAttribute("subtotal", qty * p.getPrice());
 		//
 		try {

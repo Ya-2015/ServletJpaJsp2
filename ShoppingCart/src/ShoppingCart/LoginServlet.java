@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 		process(request, response);
 	}
 	
-	private void process(HttpServletRequest request, HttpServletResponse response){
+	private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		String username = (String) request.getParameter("username");
 		String pwd = (String)request.getParameter("password");
 		HttpSession session = request.getSession();
@@ -57,38 +57,29 @@ public class LoginServlet extends HttpServlet {
 		session.removeAttribute("subtotal");
 		session.removeAttribute("totalcost");
 		
-		int userid = db.checkUser(username, pwd);
-		if (userid != -1){
-			
-			try {
-				session.setAttribute("username", username);
-				session.setAttribute("userid", userid);
-				//save data to database from shopping cart by unlogged in user
-				ArrayList<Lineitem> itemlist = (ArrayList<Lineitem>) request.getSession(false).getAttribute("items");
-				if(itemlist != null){
-					for (Lineitem it : itemlist){
-						it.setUserid(userid);
-						db.addNewLineitem(it);
-				}
-				}
-				//direct to home page
-				response.sendRedirect("http://localhost:8080/ShoppingCart/HomeServlet");
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		session.setAttribute("username", username);
+		
+		if(username.equalsIgnoreCase("admin")){
+			session.setAttribute("username", username.toLowerCase());
+			//get all orders from database
+			ArrayList<Lineitem> allitems = db.getLineitems();
+			session.setAttribute("items", allitems);
+			getServletContext().getRequestDispatcher("/OrderList.jsp").forward(request, response);
 			
 		}else{
-			request.setAttribute("loggedinfailuire", true);
-			try {
+			int userid = db.checkUser(username, pwd);
+			if (userid != -1){
+
+				session.setAttribute("userid", userid);
+				
+				//direct to home page
+				response.sendRedirect("http://localhost:8080/ShoppingCart/HomeServlet");
+
+				
+			}else{
+				request.setAttribute("loggedinfailuire", true);
 				getServletContext().getRequestDispatcher("/Login.jsp").forward(request, response);
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
 			}
 		}
 		

@@ -23,14 +23,14 @@
     <div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="HomeServlet">Home</a></li>
-        <c:if test="${not empty items}">
-        <li><a href="Checkout">Checkout</a></li>
-        </c:if>
-        <c:if test="${ empty items}">
         	<c:if test="${ not empty username}">
-        		<li class="active"><a href="Checkout">Checkout</a></li>
+        		<c:if test="${username == 'admin'}">
+        			<li class="active"><a href="OrderList.jsp">Order List</a></li>
+        		</c:if>
+        		<c:if test="${username != 'admin'}">
+	        		<li class="active"><a href="Checkout">Check Out</a></li>
+	        	</c:if>
         	</c:if>
-        </c:if>
       </ul>
       <ul class="nav navbar-nav navbar-right">
       <c:if test="${not empty username}">
@@ -59,7 +59,7 @@
     <th>Name</th> 
     <th>Price</th>
     <th></th>
-    <c:if test="${not empty username}">
+    <c:if test="${username != 'admin' and username !=null}">
     <th></th>
     </c:if>
   </tr>
@@ -68,7 +68,7 @@
         <td><a href="AddToCartServlet?ProductId=${prod.prodid}">${prod.prodname}</a></td>
         <td><fmt:setLocale value="en_US"/><fmt:formatNumber value="${prod.price}" type="currency"/></td>
         <td><img src="img/${prod.image}" alt="HTML5 Icon" width="128" height="128"></td>
-        <c:if test="${not empty username}">
+        <c:if test="${username != 'admin' and username !=null}">
         <td><a class="btn btn-default" href="AddToCartServlet?ProductId=${prod.prodid}" role="button">Add to Cart</a></td> 
         </c:if>
     </tr>

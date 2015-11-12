@@ -82,14 +82,7 @@ public class SignupServlet extends HttpServlet {
 				session.setAttribute("username", username);
 				int userid = db.checkUser(username, pwd);
 				session.setAttribute("userid", userid);
-				//save data to database from shopping cart by unlogged in user
-				ArrayList<Lineitem> itemlist = (ArrayList<Lineitem>) request.getSession(false).getAttribute("items");
-				if(itemlist != null){
-					for (Lineitem it : itemlist){
-						it.setUserid(userid);
-						db.addNewLineitem(it);
-				}
-				}
+				
 				//direct to home page
 				try {
 					response.sendRedirect("http://localhost:8080/ShoppingCart/HomeServlet");
